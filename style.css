@@ -1,5 +1,5 @@
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 * {
@@ -12,17 +12,17 @@ body {
   display: grid;
   place-items: center;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: radial-gradient(circle at top, #1f2937, #111827 55%);
-  color: #e5e7eb;
+  background: linear-gradient(160deg, #2f6fe4 0%, #eaf4ff 70%, #ffffff 100%);
+  color: #0f2a52;
 }
 
 .game-shell {
   text-align: center;
   padding: 1.2rem;
-  border: 1px solid #334155;
+  border: 1px solid #9fc3ff;
   border-radius: 12px;
-  background: #0b1220;
-  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.35);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 15px 45px rgba(17, 56, 120, 0.2);
 }
 
 h1 {
@@ -43,19 +43,20 @@ h1 {
 }
 
 #game {
-  border: 3px solid #475569;
+  border: 3px solid #5f9bff;
   border-radius: 8px;
-  background: #020617;
+  background: #edf6ff;
+  filter: hue-rotate(95deg) saturate(1.15) brightness(0.9);
 }
 
 #status {
   margin: 0.65rem 0 0.25rem;
-  color: #93c5fd;
+  color: #2158bb;
   min-height: 1.2em;
 }
 
 .help {
   margin: 0;
   font-size: 0.9rem;
-  color: #94a3b8;
+  color: #3f5f93;
 }
