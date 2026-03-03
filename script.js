@@ -20,6 +20,9 @@ let gameOver;
 let rafId;
 let lastFrameTime = 0;
 let accumulator = 0;
+let touchStartX = 0;
+let touchStartY = 0;
+let touchActive = false;
 
 function randomCell() {
   return {
@@ -161,6 +164,49 @@ function handleDirection(key) {
     queuedDirection = next;
   }
 }
+
+
+function handleTouchStart(event) {
+  if (event.touches.length !== 1) {
+    return;
+  }
+
+  const touch = event.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+  touchActive = true;
+}
+
+function handleTouchEnd(event) {
+  if (!touchActive || event.changedTouches.length === 0) {
+    return;
+  }
+
+  const touch = event.changedTouches[0];
+  const deltaX = touch.clientX - touchStartX;
+  const deltaY = touch.clientY - touchStartY;
+  const absX = Math.abs(deltaX);
+  const absY = Math.abs(deltaY);
+  const swipeThreshold = 24;
+
+  touchActive = false;
+
+  if (absX < swipeThreshold && absY < swipeThreshold) {
+    const spaceEvent = new KeyboardEvent("keydown", { key: " " });
+    window.dispatchEvent(spaceEvent);
+    return;
+  }
+
+  if (absX > absY) {
+    handleDirection(deltaX > 0 ? "ArrowRight" : "ArrowLeft");
+  } else {
+    handleDirection(deltaY > 0 ? "ArrowDown" : "ArrowUp");
+  }
+}
+
+canvas.style.touchAction = "none";
+canvas.addEventListener("touchstart", handleTouchStart, { passive: true });
+canvas.addEventListener("touchend", handleTouchEnd, { passive: true });
 
 window.addEventListener("keydown", (event) => {
   const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
