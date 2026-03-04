@@ -14,6 +14,7 @@ This repo now contains a small, complete starter for a classic Snake game built 
    - <http://127.0.0.1:8000>
    - <http://localhost:8000/index.html>
 3. Press **Space** to start/pause, use **Arrow keys** or **WASD** to move. On mobile, **swipe on the game board** to move and **tap** to start/pause.
+3. Press **Space** to start/pause, use **Arrow keys** or **WASD** to move.
 4. If you lose, press **R** to restart.
 
 ## How to test it
