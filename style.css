@@ -97,11 +97,15 @@ h1 {
   border: 3px solid var(--board-border);
   border-radius: 8px;
   background: var(--board-bg);
+  border: 3px solid #5f9bff;
+  border-radius: 8px;
+  background: #edf6ff;
 }
 
 #status {
   margin: 0.65rem 0 0.25rem;
   color: var(--status-color);
+  color: #2158bb;
   min-height: 1.2em;
 }
 
@@ -109,4 +113,5 @@ h1 {
   margin: 0;
   font-size: 0.9rem;
   color: var(--help-color);
+  color: #3f5f93;
 }
