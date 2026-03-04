@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Classic Snake</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <div class="title-row">
+        <h1>Classic Snake</h1>
+        <button id="theme-toggle" type="button" aria-label="Cycle theme mode: light, dark, auto">🖥️ Auto</button>
+      </div>
+      <div class="hud" aria-live="polite">
+        <p>Score: <span id="score">0</span></p>
+        <p>Best: <span id="best">0</span></p>
+      </div>
+      <canvas
+        id="game"
+        width="400"
+        height="400"
+        role="img"
+        aria-label="Snake game board"
+      ></canvas>
+      <p id="status">Press Space to start</p>
+      <p class="help">Controls: Arrow/WASD · Swipe/Touchpad on mobile · Start/Stop button · A=Slow · B=Turbo · R=restart</p>
+
+      <section class="control-deck" aria-label="Touch controls">
+        <div class="dpad">
+          <button id="btn-up" class="ctrl-btn">↑</button>
+          <div class="dpad-row">
+            <button id="btn-left" class="ctrl-btn">←</button>
+            <button id="btn-down" class="ctrl-btn">↓</button>
+            <button id="btn-right" class="ctrl-btn">→</button>
+          </div>
+        </div>
+
+        <div class="center-controls">
+          <button id="btn-start-stop" class="ctrl-btn start-stop">Start / Stop</button>
+        </div>
+
+        <div class="ab-controls">
+          <button id="btn-a" class="ctrl-btn special">A (Slow)</button>
+          <button id="btn-b" class="ctrl-btn special">B (Turbo)</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
