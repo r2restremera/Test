@@ -7,14 +7,8 @@ const ctx = canvas.getContext("2d");
 const scoreEl = document.getElementById("score");
 const bestEl = document.getElementById("best");
 const statusEl = document.getElementById("status");
-const themeToggleEl = document.getElementById("theme-toggle");
 
 const swipeThreshold = 24;
-const themeStorageKey = "snake-theme-mode";
-const themeModes = ["light", "dark", "auto"];
-
-let themeMode = "auto";
-let systemThemeMediaQuery = null;
 
 let snake;
 let direction;
@@ -73,97 +67,15 @@ function drawCell(x, y, color) {
   ctx.fillRect(x * tileSize, y * tileSize, tileSize - 1, tileSize - 1);
 }
 
-function cssVar(name, fallback) {
-  const value = getComputedStyle(document.body).getPropertyValue(name).trim();
-  return value || fallback;
-}
-
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = cssVar("--board-bg", "#edf6ff");
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  drawCell(food.x, food.y, cssVar("--food-color", "#38bdf8"));
+  drawCell(food.x, food.y, "#f43f5e");
 
   snake.forEach((segment, index) => {
-    const color =
-      index === 0
-        ? cssVar("--snake-head-color", "#2563eb")
-        : cssVar("--snake-body-color", "#1d4ed8");
+    const color = index === 0 ? "#22d3ee" : "#10b981";
     drawCell(segment.x, segment.y, color);
   });
-}
-
-
-function resolveTheme(mode) {
-  if (mode === "auto") {
-    return systemThemeMediaQuery && systemThemeMediaQuery.matches ? "dark" : "light";
-  }
-  return mode;
-}
-
-function updateThemeToggleLabel(mode) {
-  if (!themeToggleEl) {
-    return;
-  }
-
-  if (mode === "light") {
-    themeToggleEl.textContent = "☀️ Light";
-    return;
-  }
-
-  if (mode === "dark") {
-    themeToggleEl.textContent = "🌙 Dark";
-    return;
-  }
-
-  themeToggleEl.textContent = "🖥️ Auto";
-}
-
-function applyThemeMode(mode, persist = true) {
-  const nextMode = themeModes.includes(mode) ? mode : "auto";
-  themeMode = nextMode;
-
-  if (persist) {
-    localStorage.setItem(themeStorageKey, nextMode);
-  }
-
-  document.body.dataset.theme = resolveTheme(nextMode);
-  updateThemeToggleLabel(nextMode);
-
-  if (snake) {
-    draw();
-  }
-}
-
-function cycleThemeMode() {
-  const index = themeModes.indexOf(themeMode);
-  const nextMode = themeModes[(index + 1) % themeModes.length];
-  applyThemeMode(nextMode);
-}
-
-function initTheme() {
-  if (window.matchMedia) {
-    systemThemeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleSystemThemeChange = () => {
-      if (themeMode === "auto") {
-        applyThemeMode("auto", false);
-      }
-    };
-
-    if (systemThemeMediaQuery.addEventListener) {
-      systemThemeMediaQuery.addEventListener("change", handleSystemThemeChange);
-    } else if (systemThemeMediaQuery.addListener) {
-      systemThemeMediaQuery.addListener(handleSystemThemeChange);
-    }
-  }
-
-  const savedThemeMode = localStorage.getItem(themeStorageKey);
-  applyThemeMode(savedThemeMode || "auto", false);
-
-  if (themeToggleEl) {
-    themeToggleEl.addEventListener("click", cycleThemeMode);
-  }
 }
 
 function isOpposite(next, current) {
@@ -368,7 +280,6 @@ window.addEventListener("keydown", (event) => {
   handleDirection(key);
 });
 
-initTheme();
 registerTouchControls();
 best = Number(localStorage.getItem("snake-best") || 0);
 bestEl.textContent = String(best);

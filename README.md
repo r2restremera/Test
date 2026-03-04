@@ -15,18 +15,16 @@ This repo now contains a small, complete starter for a classic Snake game built 
    - <http://localhost:8000/index.html>
 3. Press **Space** to start/pause, use **Arrow keys** or **WASD** to move. On mobile, **swipe on the game board** to move and **tap** to start/pause.
 4. If you lose, press **R** to restart.
-5. Use the **theme button** near the title to cycle **Light → Dark → Auto** mode (`Auto` follows your system theme).
 
 ## How to test it
 
 ### Manual smoke test (30 seconds)
 
 1. Confirm the page title says **Classic Snake**.
-2. Click the **theme switch** and verify it cycles **Light / Dark / Auto**.
-3. Press **Space** and verify the snake starts moving.
-4. Press **Space** again and verify status shows **Paused**.
-5. Press **R** and verify score resets to `0`.
-6. Eat at least 1 food and verify score increases.
+2. Press **Space** and verify the snake starts moving.
+3. Press **Space** again and verify status shows **Paused**.
+4. Press **R** and verify score resets to `0`.
+5. Eat at least 1 food and verify score increases.
 
 ### If you see “Not Found”
 
