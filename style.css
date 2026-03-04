@@ -1,0 +1,215 @@
+:root {
+  --bg-gradient: linear-gradient(160deg, #2f6fe4 0%, #eaf4ff 70%, #ffffff 100%);
+  --text-color: #0f2a52;
+  --shell-border: #9fc3ff;
+  --shell-bg: rgba(255, 255, 255, 0.9);
+  --shell-shadow: rgba(17, 56, 120, 0.2);
+
+  --board-border: #9ca3af;
+  --board-bg: #e5e7eb;
+  --status-color: #2158bb;
+  --help-color: #3f5f93;
+
+  --button-bg: #ffffff;
+  --button-border: #7eaef8;
+  --button-text: #123d82;
+
+  --food-color: #9ca3af;
+  --snake-head-color: #374151;
+  --snake-body-color: #6b7280;
+
+  --control-bg: #f8fafc;
+  --control-border: #94a3b8;
+  --control-text: #1f2937;
+  --control-active-bg: #dbeafe;
+}
+
+body[data-theme="dark"] {
+  --bg-gradient: linear-gradient(170deg, #0b1220 0%, #111827 55%, #1e293b 100%);
+  --text-color: #e2e8f0;
+  --shell-border: #334155;
+  --shell-bg: rgba(8, 15, 30, 0.92);
+  --shell-shadow: rgba(0, 0, 0, 0.45);
+
+  --board-border: #6b7280;
+  --board-bg: #111827;
+  --status-color: #cbd5e1;
+  --help-color: #94a3b8;
+
+  --button-bg: #0f172a;
+  --button-border: #334155;
+  --button-text: #e2e8f0;
+
+  --food-color: #d1d5db;
+  --snake-head-color: #f3f4f6;
+  --snake-body-color: #9ca3af;
+
+  --control-bg: #0f172a;
+  --control-border: #475569;
+  --control-text: #e5e7eb;
+  --control-active-bg: #1e293b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  -webkit-text-size-adjust: 100%;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg-gradient);
+  color: var(--text-color);
+}
+
+.game-shell {
+  touch-action: none;
+  text-align: center;
+  width: min(94vw, 760px);
+  padding: 1rem 1rem 1.1rem;
+  border: 1px solid var(--shell-border);
+  border-radius: 12px;
+  background: var(--shell-bg);
+  box-shadow: 0 15px 45px var(--shell-shadow);
+}
+
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+h1 {
+  margin: 0;
+}
+
+#theme-toggle {
+  border: 1px solid var(--button-border);
+  background: var(--button-bg);
+  color: var(--button-text);
+  border-radius: 8px;
+  padding: 0.35rem 0.6rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hud {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.hud p {
+  margin: 0;
+  font-weight: 700;
+}
+
+#game {
+  touch-action: none;
+  display: block;
+  width: min(92vw, 400px);
+  height: auto;
+  margin: 0 auto;
+  border: 3px solid var(--board-border);
+  border-radius: 8px;
+  background: var(--board-bg);
+}
+
+#status {
+  margin: 0.65rem 0 0.25rem;
+  color: var(--status-color);
+  min-height: 1.2em;
+}
+
+.help {
+  margin: 0 0 0.8rem;
+  font-size: 0.9rem;
+  line-height: 1.35;
+  color: var(--help-color);
+  text-wrap: balance;
+}
+
+.control-deck {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.ctrl-btn {
+  background: var(--control-bg);
+  color: var(--control-text);
+  border: 1px solid var(--control-border);
+  border-radius: 10px;
+  padding: 0.45rem 0.65rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  min-width: 46px;
+  min-height: 40px;
+}
+
+.ctrl-btn:active,
+.ctrl-btn[data-active="true"] {
+  background: var(--control-active-bg);
+}
+
+.dpad {
+  display: grid;
+  gap: 0.35rem;
+  justify-items: center;
+}
+
+.dpad-row {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 0.35rem;
+}
+
+.start-stop {
+  min-width: 128px;
+}
+
+.ab-controls {
+  display: grid;
+  gap: 0.35rem;
+  justify-items: stretch;
+}
+
+@media (max-width: 700px) {
+  .title-row {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .control-deck {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .ab-controls {
+    width: 100%;
+    max-width: 240px;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem;
+  }
+}
+
+@media (pointer: coarse) {
+  .ctrl-btn {
+    min-width: 56px;
+    min-height: 48px;
+    font-size: 1rem;
+  }
+
+  .start-stop {
+    min-width: 150px;
+  }
+}
