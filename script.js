@@ -115,15 +115,22 @@ function draw() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   drawCell(food.x, food.y, cssVar("--food-color", "#9ca3af"));
+  ctx.fillStyle = cssVar("--board-bg", "#edf6ff");
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  drawCell(food.x, food.y, cssVar("--food-color", "#38bdf8"));
 
   snake.forEach((segment, index) => {
     const color =
       index === 0
         ? cssVar("--snake-head-color", "#374151")
         : cssVar("--snake-body-color", "#6b7280");
+        ? cssVar("--snake-head-color", "#2563eb")
+        : cssVar("--snake-body-color", "#1d4ed8");
     drawCell(segment.x, segment.y, color);
   });
 }
+
 
 function resolveTheme(mode) {
   if (mode === "auto") {
@@ -257,6 +264,9 @@ function loop(timestamp) {
     accumulator -= currentTickMs;
     currentTickMs = getCurrentTickMs();
 
+  while (accumulator >= tickMs) {
+    step();
+    accumulator -= tickMs;
     if (gameOver) {
       accumulator = 0;
       break;
