@@ -24,6 +24,27 @@
         aria-label="Snake game board"
       ></canvas>
       <p id="status">Press Space to start</p>
+      <p class="help">Controls: Arrow/WASD · Swipe/Touchpad on mobile · Start/Stop button · A=Slow · B=Turbo · R=restart</p>
+
+      <section class="control-deck" aria-label="Touch controls">
+        <div class="dpad">
+          <button id="btn-up" class="ctrl-btn">↑</button>
+          <div class="dpad-row">
+            <button id="btn-left" class="ctrl-btn">←</button>
+            <button id="btn-down" class="ctrl-btn">↓</button>
+            <button id="btn-right" class="ctrl-btn">→</button>
+          </div>
+        </div>
+
+        <div class="center-controls">
+          <button id="btn-start-stop" class="ctrl-btn start-stop">Start / Stop</button>
+        </div>
+
+        <div class="ab-controls">
+          <button id="btn-a" class="ctrl-btn special">A (Slow)</button>
+          <button id="btn-b" class="ctrl-btn special">B (Turbo)</button>
+        </div>
+      </section>
       <p class="help">Controls: Arrow/WASD · Swipe on board (mobile) · Tap = start/pause · R = restart</p>
     </main>
 

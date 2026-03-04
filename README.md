@@ -13,6 +13,9 @@ This repo now contains a small, complete starter for a classic Snake game built 
    - <http://localhost:8000>
    - <http://127.0.0.1:8000>
    - <http://localhost:8000/index.html>
+3. Press **Space** to start/pause, use **Arrow keys** or **WASD** to move. On mobile, **swipe on the game board** or use the on-screen **touchpad controls**.
+4. If you lose, press **R** to restart.
+5. Use the **theme button** near the title to cycle modes in order: **Auto → Light → Dark → Auto** (`Auto` follows your system theme).
 3. Press **Space** to start/pause, use **Arrow keys** or **WASD** to move. On mobile, **swipe on the game board** to move and **tap** to start/pause.
 4. If you lose, press **R** to restart.
 5. Use the **theme button** near the title to cycle modes in order: **Auto → Light → Dark → Auto** (`Auto` follows your system theme).
@@ -27,6 +30,8 @@ This repo now contains a small, complete starter for a classic Snake game built 
 3. Press **Space** and verify the snake starts moving.
 4. Press **Space** again and verify status shows **Paused**.
 5. Press **R** and verify score resets to `0`.
+6. Hold **A (Slow)** and verify snake slows down; hold **B (Turbo)** and verify snake speeds up.
+7. Eat at least 1 food and verify score increases.
 6. Eat at least 1 food and verify score increases.
 
 ### If you see “Not Found”
@@ -89,6 +94,13 @@ Then open:
 - On iPad/mobile browsers, controls use **Pointer Events** when available, with **Touch Events** fallback.
 - Small movements are ignored (swipe threshold) to avoid accidental turns.
 - Keyboard controls still work on desktop browsers.
+
+### Touchpad controls
+
+- Left side: on-screen **↑ ↓ ← →** directional buttons.
+- Middle: **Start / Stop** button (same behavior as Space).
+- Right side: **A (Slow)** to temporarily slow movement, **B (Turbo)** to temporarily speed up movement while pressed.
+- These controls are visible under the board and are intended for touch/mobile play, but also work with mouse clicks.
 
 ## Project structure
 

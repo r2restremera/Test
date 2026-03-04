@@ -8,6 +8,13 @@ const scoreEl = document.getElementById("score");
 const bestEl = document.getElementById("best");
 const statusEl = document.getElementById("status");
 const themeToggleEl = document.getElementById("theme-toggle");
+const startStopBtn = document.getElementById("btn-start-stop");
+const upBtn = document.getElementById("btn-up");
+const downBtn = document.getElementById("btn-down");
+const leftBtn = document.getElementById("btn-left");
+const rightBtn = document.getElementById("btn-right");
+const aBtn = document.getElementById("btn-a");
+const bBtn = document.getElementById("btn-b");
 
 const swipeThreshold = 24;
 const themeStorageKey = "snake-theme-mode";
@@ -28,6 +35,7 @@ let gameOver;
 let rafId;
 let lastFrameTime = 0;
 let accumulator = 0;
+let speedMode = "normal";
 
 let touchStartX = 0;
 let touchStartY = 0;
@@ -49,6 +57,28 @@ function placeFood() {
   food = cell;
 }
 
+function updateSpeedButtons() {
+  aBtn.dataset.active = String(speedMode === "slow");
+  bBtn.dataset.active = String(speedMode === "turbo");
+}
+
+function setSpeedMode(mode) {
+  speedMode = mode;
+  updateSpeedButtons();
+}
+
+function getCurrentTickMs() {
+  if (speedMode === "slow") {
+    return 230;
+  }
+
+  if (speedMode === "turbo") {
+    return 70;
+  }
+
+  return tickMs;
+}
+
 function resetGame() {
   snake = [
     { x: 10, y: 10 },
@@ -62,6 +92,7 @@ function resetGame() {
   paused = false;
   gameOver = false;
   accumulator = 0;
+  setSpeedMode("normal");
   scoreEl.textContent = "0";
   statusEl.textContent = "Press Space to start";
   placeFood();
@@ -80,6 +111,10 @@ function cssVar(name, fallback) {
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = cssVar("--board-bg", "#e5e7eb");
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  drawCell(food.x, food.y, cssVar("--food-color", "#9ca3af"));
   ctx.fillStyle = cssVar("--board-bg", "#edf6ff");
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -88,6 +123,8 @@ function draw() {
   snake.forEach((segment, index) => {
     const color =
       index === 0
+        ? cssVar("--snake-head-color", "#374151")
+        : cssVar("--snake-body-color", "#6b7280");
         ? cssVar("--snake-head-color", "#2563eb")
         : cssVar("--snake-body-color", "#1d4ed8");
     drawCell(segment.x, segment.y, color);
@@ -221,6 +258,12 @@ function loop(timestamp) {
 
   accumulator += delta;
 
+  let currentTickMs = getCurrentTickMs();
+  while (accumulator >= currentTickMs) {
+    step();
+    accumulator -= currentTickMs;
+    currentTickMs = getCurrentTickMs();
+
   while (accumulator >= tickMs) {
     step();
     accumulator -= tickMs;
@@ -348,6 +391,42 @@ function registerTouchControls() {
   canvas.addEventListener("touchcancel", onTouchEnd, { passive: false });
 }
 
+function registerControlPad() {
+  upBtn.addEventListener("click", () => handleDirection("ArrowUp"));
+  downBtn.addEventListener("click", () => handleDirection("ArrowDown"));
+  leftBtn.addEventListener("click", () => handleDirection("ArrowLeft"));
+  rightBtn.addEventListener("click", () => handleDirection("ArrowRight"));
+  startStopBtn.addEventListener("click", triggerPrimaryAction);
+
+  const bindHoldSpeed = (button, mode) => {
+    const activate = (event) => {
+      event.preventDefault();
+      setSpeedMode(mode);
+    };
+
+    const release = (event) => {
+      event.preventDefault();
+      setSpeedMode("normal");
+    };
+
+    button.addEventListener("pointerdown", activate, { passive: false });
+    button.addEventListener("pointerup", release, { passive: false });
+    button.addEventListener("pointercancel", release, { passive: false });
+    button.addEventListener("pointerleave", release, { passive: false });
+
+    button.addEventListener("touchstart", activate, { passive: false });
+    button.addEventListener("touchend", release, { passive: false });
+    button.addEventListener("touchcancel", release, { passive: false });
+
+    button.addEventListener("mousedown", activate);
+    button.addEventListener("mouseup", release);
+    button.addEventListener("mouseleave", release);
+  };
+
+  bindHoldSpeed(aBtn, "slow");
+  bindHoldSpeed(bBtn, "turbo");
+}
+
 window.addEventListener("keydown", (event) => {
   const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
 
@@ -370,6 +449,7 @@ window.addEventListener("keydown", (event) => {
 
 initTheme();
 registerTouchControls();
+registerControlPad();
 best = Number(localStorage.getItem("snake-best") || 0);
 bestEl.textContent = String(best);
 resetGame();
