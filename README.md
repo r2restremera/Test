@@ -14,7 +14,6 @@ This repo now contains a small, complete starter for a classic Snake game built 
    - <http://127.0.0.1:8000>
    - <http://localhost:8000/index.html>
 3. Press **Space** to start/pause, use **Arrow keys** or **WASD** to move. On mobile, **swipe on the game board** to move and **tap** to start/pause.
-3. Press **Space** to start/pause, use **Arrow keys** or **WASD** to move.
 4. If you lose, press **R** to restart.
 
 ## How to test it
@@ -84,6 +83,8 @@ Then open:
 
 - **Swipe** on the canvas to change direction (up/down/left/right).
 - **Tap** the canvas to start or pause/resume.
+- On iPad/mobile browsers, controls use **Pointer Events** when available, with **Touch Events** fallback.
+- Small movements are ignored (swipe threshold) to avoid accidental turns.
 - Keyboard controls still work on desktop browsers.
 
 ## Project structure

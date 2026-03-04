@@ -8,6 +8,8 @@ const scoreEl = document.getElementById("score");
 const bestEl = document.getElementById("best");
 const statusEl = document.getElementById("status");
 
+const swipeThreshold = 24;
+
 let snake;
 let direction;
 let queuedDirection;
@@ -20,9 +22,11 @@ let gameOver;
 let rafId;
 let lastFrameTime = 0;
 let accumulator = 0;
+
 let touchStartX = 0;
 let touchStartY = 0;
 let touchActive = false;
+let activePointerId = null;
 
 function randomCell() {
   return {
@@ -165,6 +169,66 @@ function handleDirection(key) {
   }
 }
 
+function triggerPrimaryAction() {
+  if (!started) {
+    started = true;
+    paused = false;
+    accumulator = 0;
+    statusEl.textContent = "Good luck!";
+    return;
+  }
+
+  if (!gameOver) {
+    paused = !paused;
+    accumulator = 0;
+    statusEl.textContent = paused ? "Paused" : "Good luck!";
+  }
+}
+
+function applySwipe(deltaX, deltaY) {
+  const absX = Math.abs(deltaX);
+  const absY = Math.abs(deltaY);
+
+  if (absX < swipeThreshold && absY < swipeThreshold) {
+    triggerPrimaryAction();
+    return;
+  }
+
+  if (absX > absY) {
+    handleDirection(deltaX > 0 ? "ArrowRight" : "ArrowLeft");
+  } else {
+    handleDirection(deltaY > 0 ? "ArrowDown" : "ArrowUp");
+  }
+}
+
+function onPointerDown(event) {
+  if (event.pointerType === "mouse" && event.button !== 0) {
+    return;
+  }
+  event.preventDefault();
+  touchStartX = event.clientX;
+  touchStartY = event.clientY;
+  touchActive = true;
+  activePointerId = event.pointerId;
+}
+
+function onPointerUp(event) {
+  if (!touchActive || event.pointerId !== activePointerId) {
+    return;
+  }
+  event.preventDefault();
+  const deltaX = event.clientX - touchStartX;
+  const deltaY = event.clientY - touchStartY;
+  touchActive = false;
+  activePointerId = null;
+  applySwipe(deltaX, deltaY);
+}
+
+function onTouchStart(event) {
+  if (event.touches.length !== 1) {
+    return;
+  }
+  event.preventDefault();
 
 function handleTouchStart(event) {
   if (event.touches.length !== 1) {
@@ -177,36 +241,30 @@ function handleTouchStart(event) {
   touchActive = true;
 }
 
-function handleTouchEnd(event) {
+function onTouchEnd(event) {
   if (!touchActive || event.changedTouches.length === 0) {
     return;
   }
-
+  event.preventDefault();
   const touch = event.changedTouches[0];
   const deltaX = touch.clientX - touchStartX;
   const deltaY = touch.clientY - touchStartY;
-  const absX = Math.abs(deltaX);
-  const absY = Math.abs(deltaY);
-  const swipeThreshold = 24;
-
   touchActive = false;
+  applySwipe(deltaX, deltaY);
+}
 
-  if (absX < swipeThreshold && absY < swipeThreshold) {
-    const spaceEvent = new KeyboardEvent("keydown", { key: " " });
-    window.dispatchEvent(spaceEvent);
+function registerTouchControls() {
+  if (window.PointerEvent) {
+    canvas.addEventListener("pointerdown", onPointerDown, { passive: false });
+    canvas.addEventListener("pointerup", onPointerUp, { passive: false });
+    canvas.addEventListener("pointercancel", onPointerUp, { passive: false });
     return;
   }
 
-  if (absX > absY) {
-    handleDirection(deltaX > 0 ? "ArrowRight" : "ArrowLeft");
-  } else {
-    handleDirection(deltaY > 0 ? "ArrowDown" : "ArrowUp");
-  }
+  canvas.addEventListener("touchstart", onTouchStart, { passive: false });
+  canvas.addEventListener("touchend", onTouchEnd, { passive: false });
+  canvas.addEventListener("touchcancel", onTouchEnd, { passive: false });
 }
-
-canvas.style.touchAction = "none";
-canvas.addEventListener("touchstart", handleTouchStart, { passive: true });
-canvas.addEventListener("touchend", handleTouchEnd, { passive: true });
 
 window.addEventListener("keydown", (event) => {
   const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
@@ -221,24 +279,14 @@ window.addEventListener("keydown", (event) => {
   }
 
   if (key === " ") {
-    if (!started) {
-      started = true;
-      paused = false;
-      accumulator = 0;
-      statusEl.textContent = "Good luck!";
-      return;
-    }
-    if (!gameOver) {
-      paused = !paused;
-      accumulator = 0;
-      statusEl.textContent = paused ? "Paused" : "Good luck!";
-    }
+    triggerPrimaryAction();
     return;
   }
 
   handleDirection(key);
 });
 
+registerTouchControls();
 best = Number(localStorage.getItem("snake-best") || 0);
 bestEl.textContent = String(best);
 resetGame();
