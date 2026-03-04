@@ -1,6 +1,5 @@
 :root {
   color-scheme: light;
-  color-scheme: dark;
 }
 
 * {
@@ -49,10 +48,6 @@ h1 {
   border: 3px solid #5f9bff;
   border-radius: 8px;
   background: #edf6ff;
-  filter: hue-rotate(95deg) saturate(1.15) brightness(0.9);
-  border: 3px solid #475569;
-  border-radius: 8px;
-  background: #020617;
 }
 
 #status {
