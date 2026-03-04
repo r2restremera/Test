@@ -229,6 +229,12 @@ function onTouchStart(event) {
     return;
   }
   event.preventDefault();
+
+function handleTouchStart(event) {
+  if (event.touches.length !== 1) {
+    return;
+  }
+
   const touch = event.touches[0];
   touchStartX = touch.clientX;
   touchStartY = touch.clientY;
