@@ -13,6 +13,7 @@ This repo now contains a small, complete starter for a classic Snake game built 
    - <http://localhost:8000>
    - <http://127.0.0.1:8000>
    - <http://localhost:8000/index.html>
+3. Press **Space** to start/pause, use **Arrow keys** or **WASD** to move. On mobile, **swipe on the game board** to move and **tap** to start/pause.
 3. Press **Space** to start/pause, use **Arrow keys** or **WASD** to move.
 4. If you lose, press **R** to restart.
 
@@ -77,6 +78,13 @@ Then open:
   python3 -m http.server 8080
   ```
   Then open <http://localhost:8080/index.html>.
+
+
+### Mobile touch controls
+
+- **Swipe** on the canvas to change direction (up/down/left/right).
+- **Tap** the canvas to start or pause/resume.
+- Keyboard controls still work on desktop browsers.
 
 ## Project structure
 

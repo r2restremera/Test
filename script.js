@@ -14,10 +14,15 @@ let queuedDirection;
 let food;
 let score;
 let best;
-let timer;
 let started;
 let paused;
 let gameOver;
+let rafId;
+let lastFrameTime = 0;
+let accumulator = 0;
+let touchStartX = 0;
+let touchStartY = 0;
+let touchActive = false;
 
 function randomCell() {
   return {
@@ -46,6 +51,7 @@ function resetGame() {
   started = false;
   paused = false;
   gameOver = false;
+  accumulator = 0;
   scoreEl.textContent = "0";
   statusEl.textContent = "Press Space to start";
   placeFood();
@@ -73,10 +79,6 @@ function isOpposite(next, current) {
 }
 
 function step() {
-  if (!started || paused || gameOver) {
-    return;
-  }
-
   if (!isOpposite(queuedDirection, direction)) {
     direction = queuedDirection;
   }
@@ -111,9 +113,37 @@ function step() {
   draw();
 }
 
+function loop(timestamp) {
+  if (!lastFrameTime) {
+    lastFrameTime = timestamp;
+  }
+
+  const delta = Math.min(timestamp - lastFrameTime, 250);
+  lastFrameTime = timestamp;
+
+  if (!started || paused || gameOver) {
+    accumulator = 0;
+    rafId = requestAnimationFrame(loop);
+    return;
+  }
+
+  accumulator += delta;
+
+  while (accumulator >= tickMs) {
+    step();
+    accumulator -= tickMs;
+    if (gameOver) {
+      accumulator = 0;
+      break;
+    }
+  }
+
+  rafId = requestAnimationFrame(loop);
+}
+
 function startLoop() {
-  if (!timer) {
-    timer = setInterval(step, tickMs);
+  if (!rafId) {
+    rafId = requestAnimationFrame(loop);
   }
 }
 
@@ -135,6 +165,49 @@ function handleDirection(key) {
   }
 }
 
+
+function handleTouchStart(event) {
+  if (event.touches.length !== 1) {
+    return;
+  }
+
+  const touch = event.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+  touchActive = true;
+}
+
+function handleTouchEnd(event) {
+  if (!touchActive || event.changedTouches.length === 0) {
+    return;
+  }
+
+  const touch = event.changedTouches[0];
+  const deltaX = touch.clientX - touchStartX;
+  const deltaY = touch.clientY - touchStartY;
+  const absX = Math.abs(deltaX);
+  const absY = Math.abs(deltaY);
+  const swipeThreshold = 24;
+
+  touchActive = false;
+
+  if (absX < swipeThreshold && absY < swipeThreshold) {
+    const spaceEvent = new KeyboardEvent("keydown", { key: " " });
+    window.dispatchEvent(spaceEvent);
+    return;
+  }
+
+  if (absX > absY) {
+    handleDirection(deltaX > 0 ? "ArrowRight" : "ArrowLeft");
+  } else {
+    handleDirection(deltaY > 0 ? "ArrowDown" : "ArrowUp");
+  }
+}
+
+canvas.style.touchAction = "none";
+canvas.addEventListener("touchstart", handleTouchStart, { passive: true });
+canvas.addEventListener("touchend", handleTouchEnd, { passive: true });
+
 window.addEventListener("keydown", (event) => {
   const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
 
@@ -151,11 +224,13 @@ window.addEventListener("keydown", (event) => {
     if (!started) {
       started = true;
       paused = false;
+      accumulator = 0;
       statusEl.textContent = "Good luck!";
       return;
     }
     if (!gameOver) {
       paused = !paused;
+      accumulator = 0;
       statusEl.textContent = paused ? "Paused" : "Good luck!";
     }
     return;
