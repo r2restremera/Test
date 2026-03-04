@@ -16,6 +16,10 @@ This repo now contains a small, complete starter for a classic Snake game built 
 3. Press **Space** to start/pause, use **Arrow keys** or **WASD** to move. On mobile, **swipe on the game board** or use the on-screen **touchpad controls**.
 4. If you lose, press **R** to restart.
 5. Use the **theme button** near the title to cycle modes in order: **Auto → Light → Dark → Auto** (`Auto` follows your system theme).
+3. Press **Space** to start/pause, use **Arrow keys** or **WASD** to move. On mobile, **swipe on the game board** to move and **tap** to start/pause.
+4. If you lose, press **R** to restart.
+5. Use the **theme button** near the title to cycle modes in order: **Auto → Light → Dark → Auto** (`Auto` follows your system theme).
+5. Use the **theme button** near the title to cycle **Light → Dark → Auto** mode (`Auto` follows your system theme).
 
 ## How to test it
 
@@ -28,6 +32,7 @@ This repo now contains a small, complete starter for a classic Snake game built 
 5. Press **R** and verify score resets to `0`.
 6. Hold **A (Slow)** and verify snake slows down; hold **B (Turbo)** and verify snake speeds up.
 7. Eat at least 1 food and verify score increases.
+6. Eat at least 1 food and verify score increases.
 
 ### If you see “Not Found”
 

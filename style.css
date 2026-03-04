@@ -22,6 +22,16 @@
   --control-border: #94a3b8;
   --control-text: #1f2937;
   --control-active-bg: #dbeafe;
+  --board-border: #5f9bff;
+  --board-bg: #edf6ff;
+  --status-color: #2158bb;
+  --help-color: #3f5f93;
+  --button-bg: #ffffff;
+  --button-border: #7eaef8;
+  --button-text: #123d82;
+  --food-color: #38bdf8;
+  --snake-head-color: #2563eb;
+  --snake-body-color: #1d4ed8;
 }
 
 body[data-theme="dark"] {
@@ -48,6 +58,16 @@ body[data-theme="dark"] {
   --control-border: #475569;
   --control-text: #e5e7eb;
   --control-active-bg: #1e293b;
+  --board-border: #475569;
+  --board-bg: #020617;
+  --status-color: #7dd3fc;
+  --help-color: #94a3b8;
+  --button-bg: #0f172a;
+  --button-border: #334155;
+  --button-text: #e2e8f0;
+  --food-color: #22d3ee;
+  --snake-head-color: #38bdf8;
+  --snake-body-color: #0ea5e9;
 }
 
 * {
@@ -70,6 +90,7 @@ body {
   text-align: center;
   width: min(94vw, 760px);
   padding: 1rem 1rem 1.1rem;
+  padding: 1.2rem;
   border: 1px solid var(--shell-border);
   border-radius: 12px;
   background: var(--shell-bg);
@@ -119,11 +140,18 @@ h1 {
   border: 3px solid var(--board-border);
   border-radius: 8px;
   background: var(--board-bg);
+  border: 3px solid var(--board-border);
+  border-radius: 8px;
+  background: var(--board-bg);
+  border: 3px solid #5f9bff;
+  border-radius: 8px;
+  background: #edf6ff;
 }
 
 #status {
   margin: 0.65rem 0 0.25rem;
   color: var(--status-color);
+  color: #2158bb;
   min-height: 1.2em;
 }
 
@@ -133,12 +161,15 @@ h1 {
   line-height: 1.35;
   color: var(--help-color);
   text-wrap: balance;
+  color: var(--help-color);
 }
 
 .control-deck {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.7rem;
   align-items: center;
 }
 
@@ -154,6 +185,10 @@ h1 {
   cursor: pointer;
   min-width: 46px;
   min-height: 40px;
+  padding: 0.5rem 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  min-width: 46px;
 }
 
 .ctrl-btn:active,
@@ -212,4 +247,9 @@ h1 {
   .start-stop {
     min-width: 150px;
   }
+  justify-items: end;
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--help-color);
+  color: #3f5f93;
 }
