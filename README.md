@@ -16,6 +16,7 @@ This repo now contains a small, complete starter for a classic Snake game built 
 3. Press **Space** to start/pause, use **Arrow keys** or **WASD** to move. On mobile, **swipe on the game board** to move and **tap** to start/pause.
 4. If you lose, press **R** to restart.
 5. Use the **theme button** near the title to cycle modes in order: **Auto → Light → Dark → Auto** (`Auto` follows your system theme).
+5. Use the **theme button** near the title to cycle **Light → Dark → Auto** mode (`Auto` follows your system theme).
 
 ## How to test it
 
